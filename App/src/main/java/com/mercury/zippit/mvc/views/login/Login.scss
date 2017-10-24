@@ -1,0 +1,66 @@
+@import "../Constants";
+
+Text {
+	&#welcome {
+		@include TextSize($large_text);
+	}
+}
+
+TextField, PasswordField {
+	-fx-background-color: $component_background;
+	-fx-border-color: $component_border;
+	-fx-border-width: 0 0 1px 0; //1px underline
+	//TODO: text alignment / insets
+}
+
+Button, CheckBox .box {
+	-fx-background-color: $component_fill;
+	-fx-border-color: $component_border;
+}
+
+//TODO: checkbox font size and proper size
+
+Button {
+
+	&#login {
+		-fx-alignment: center-left;
+		-fx-border-radius: 3px 0 0 3px;
+		-fx-shape: "M3,1.12409742e-14 L164.973145,0 L101.672535,55 L3,55 L3,55 C1.34314575,55 4.23913811e-14,53.6568542 4.21884749e-14,52 L4.35207426e-14,3 L4.39648318e-14,3 C4.37619256e-14,1.34314575 1.34314575,1.14065894e-14 3,1.11022302e-14 Z";
+	}
+
+	&#register {
+		-fx-alignment: center-right;
+		-fx-border-radius: 0 3px 3px 0;
+		-fx-shape: "M63.3095703,0 L162,0 L162,0 C163.656854,-3.04359188e-16 165,1.34314575 165,3 L165,52 L165,52 C165,53.6568542 163.656854,55 162,55 L0,55 L63.3095703,0 Z";
+	}
+
+	&.settings {
+		-fx-shape: $settings_icon_svg;
+	}
+
+	&:hover, &:focused {
+		-fx-text-fill: $component_fill;
+		-fx-background-color: $primary_text;
+	}
+
+	&:pressed {
+		-fx-text-fill: $primary_text;
+		-fx-background-color: $component_background;
+	}
+
+	//TODO: transitions
+
+}
+
+CheckBox {
+
+	.mark {
+		-fx-shape: $checkbox_tick_svg;
+	}
+
+	&:selected {
+		.mark {
+			-fx-background-color: $primary_text;
+		}
+	}
+}

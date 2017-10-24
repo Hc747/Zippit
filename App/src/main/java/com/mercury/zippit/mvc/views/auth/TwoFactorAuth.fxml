@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mercury.zippit.mvc.controllers.auth.TwoFactorAuth">
+    <stylesheets>
+        <URL value="@./TwoFactorAuth.css" />
+    </stylesheets>
+   <children>
+      <Text id="welcome" boundsType="VISUAL" layoutX="20.0" layoutY="14.0" text="Enter your six digit authentication code" textOrigin="TOP" AnchorPane.leftAnchor="22.5" AnchorPane.rightAnchor="22.5" />
+   </children>
+</AnchorPane>

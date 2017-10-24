@@ -1,0 +1,20 @@
+* {
+  -fx-font-family: 'Roboto Light';
+  -fx-text-fill: #FC1554;
+  -fx-prompt-text-fill: #333333;
+  -fx-border-width: 1px; }
+
+.root {
+  -fx-background-color: #292727; }
+
+Label, TextField, PasswordField, Text {
+  -fx-font-size: 18px; }
+
+Button {
+  -fx-font-size: 24px; }
+
+Text {
+  -fx-fill: #FC1554;
+  -fx-font-smoothing-type: gray; }
+
+/*# sourceMappingURL=TwoFactorAuth.css.map */
