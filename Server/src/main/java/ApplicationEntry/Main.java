@@ -15,6 +15,8 @@ public final class Main {
 	public static void main(String[] args) {
 		ZippitConfiguration.ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
 
+		//TODO: populate builder vars
+
 		ZippitConfiguration configuration = builder.build();
 
 		Zippit zippit = new Zippit(configuration);
