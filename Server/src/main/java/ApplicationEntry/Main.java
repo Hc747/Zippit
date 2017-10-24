@@ -12,7 +12,7 @@ public final class Main {
 
 	private Main() {}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ZippitConfiguration.ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
 
 		//TODO: populate builder vars
@@ -20,6 +20,8 @@ public final class Main {
 		ZippitConfiguration configuration = builder.build();
 
 		Zippit zippit = new Zippit(configuration);
+
+		zippit.run();
 	}
 
 }

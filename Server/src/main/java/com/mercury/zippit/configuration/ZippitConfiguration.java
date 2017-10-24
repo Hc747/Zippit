@@ -27,6 +27,11 @@ public final class ZippitConfiguration {
 
 		private int port = ZippitConstants.DEFAULT_PORT;
 
+		public ZippitConfigurationBuilder port(int port) {
+			this.port = port;
+			return this;
+		}
+
 		@Override
 		public ZippitConfiguration build() {
 			return new ZippitConfiguration(port);
