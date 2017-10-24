@@ -1,5 +1,8 @@
 package ApplicationEntry;
 
+import com.mercury.zippit.Zippit;
+import com.mercury.zippit.configuration.ZippitConfiguration;
+
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
  * @version 1.0
@@ -10,7 +13,11 @@ public final class Main {
 	private Main() {}
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		ZippitConfiguration.ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
+
+		ZippitConfiguration configuration = builder.build();
+
+		Zippit zippit = new Zippit(configuration);
 	}
 
 }
