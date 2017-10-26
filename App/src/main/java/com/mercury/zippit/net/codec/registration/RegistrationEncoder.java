@@ -3,6 +3,7 @@ package com.mercury.zippit.net.codec.registration;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.util.ReferenceCountUtil;
 import utilities.ByteBufUtilities;
 
 /**
@@ -20,11 +21,15 @@ public final class RegistrationEncoder extends MessageToByteEncoder<Registration
 	protected void encode(ChannelHandlerContext context, RegistrationRequest request, ByteBuf out) {
 		ByteBuf data = context.alloc().buffer();
 
-		ByteBufUtilities.writeString(data, request.getUsername());
-		ByteBufUtilities.writeString(data, request.getPassword());
-		ByteBufUtilities.writeString(data, request.getEmail());
+		try {
+			ByteBufUtilities.writeString(data, request.getUsername());
+			ByteBufUtilities.writeString(data, request.getPassword());
+			ByteBufUtilities.writeString(data, request.getEmail());
 
-		out.writeBytes(data);
+			out.writeBytes(data);
+		} finally {
+			ReferenceCountUtil.release(data);
+		}
 	}
 
 
