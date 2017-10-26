@@ -23,6 +23,8 @@ import javafx.stage.Stage;
  */
 public final class Zippit extends Application {
 
+	//TODO: logging in network handlers
+
 	private final Bootstrap bootstrap = new Bootstrap();
 	private final EventLoopGroup group = new NioEventLoopGroup();
 
