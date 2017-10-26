@@ -51,7 +51,7 @@ public final class ZippitHandler extends ChannelInboundHandlerAdapter {
 	public void channelInactive(ChannelHandlerContext context) {
 		Channel channel = context.channel();
 		logger.info(String.format("channelInactive: %s", channel));
-		Optional.ofNullable(channel.attr(SESSION_KEY).getAndSet(null)).ifPresent(Session::destroy);
+		Optional.ofNullable(channel.attr(SESSION_KEY).getAndSet(null)).ifPresent(Session::destroy);//TODO
 		channel.close();
 	}
 

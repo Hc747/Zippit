@@ -25,7 +25,7 @@ public class Zippit {
 	private static final Logger logger = Logger.getLogger(Zippit.class.getSimpleName());
 
 	private final ServerBootstrap bootstrap = new ServerBootstrap();
-	private final EventLoopGroup eventLoop = new NioEventLoopGroup();
+	private final EventLoopGroup group = new NioEventLoopGroup();
 
 	private final ZippitConfiguration configuration;
 
@@ -34,14 +34,12 @@ public class Zippit {
 	}
 
 	public void run() {
-		ZippitHandler handler = new ZippitHandler();
-
 		try {
-			bootstrap.group(eventLoop);
+			bootstrap.group(group);
 			bootstrap.channel(NioServerSocketChannel.class);
 
 			bootstrap.handler(new LoggingHandler(LogLevel.INFO));//TODO
-			bootstrap.childHandler(new ZippitChannelInitialiser(handler));
+			bootstrap.childHandler(new ZippitChannelInitialiser(new ZippitHandler()));
 
 			bootstrap.option(ChannelOption.SO_BACKLOG, 128);
 			bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -51,7 +49,7 @@ public class Zippit {
 
 			binding.channel().closeFuture().syncUninterruptibly();
 		} finally {
-			eventLoop.shutdownGracefully();
+			group.shutdownGracefully();
 		}
 	}
 

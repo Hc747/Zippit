@@ -3,6 +3,7 @@ package com.mercury.zippit.net.codec.login;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import utilities.ByteBufUtilities;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,8 +18,14 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	private static final Logger logger = Logger.getLogger(LoginDecoder.class.getSimpleName());
 
 	@Override
-	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-		logger.info("TODO");
+	protected void decode(ChannelHandlerContext context, ByteBuf buffer, List<Object> out) {
+		String username = ByteBufUtilities.readString(buffer);
+		String password = ByteBufUtilities.readString(buffer);
+		boolean reconnecting = buffer.readBoolean();
+
+		logger.info(String.format("Username: %s, Password: %s, Reconnecting: %s", username, password, reconnecting));
+
+		//TODO: add login response
 	}
 
 }

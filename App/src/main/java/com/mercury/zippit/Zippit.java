@@ -1,13 +1,20 @@
 package com.mercury.zippit;
 
+import com.mercury.zippit.mvc.controllers.login.LoginController;
+import com.mercury.zippit.net.ZippitChannelInitialiser;
+import com.mercury.zippit.net.ZippitHandler;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
@@ -16,34 +23,51 @@ import java.net.URL;
  */
 public final class Zippit extends Application {
 
+	private final Bootstrap bootstrap = new Bootstrap();
+	private final EventLoopGroup group = new NioEventLoopGroup();
+
+	private Channel channel;
+
+	@Override
+	public void init() {
+		bootstrap.group(group);
+		bootstrap.channel(NioSocketChannel.class);
+
+		bootstrap.handler(new ZippitChannelInitialiser(new ZippitHandler()));
+		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+		bootstrap.option(ChannelOption.TCP_NODELAY, true);
+
+		ChannelFuture connection = bootstrap.connect("127.0.0.1", 43595).syncUninterruptibly();
+
+		channel = connection.channel();
+		//TODO: use constants
+	}
+
 	@Override
 	public void start(Stage stage) throws Exception {
-		show(Zippit.class.getResource("mvc/views/login/Login.fxml"), stage, "Mercury", false);
+		FXMLLoader loader = new FXMLLoader(Zippit.class.getResource("mvc/views/login/Login.fxml"));
 
-		show(Zippit.class.getResource("mvc/views/auth/TwoFactorAuth.fxml"), new Stage(), "2FA", false);
-	}
+		Parent root = loader.load();
 
-	@Override
-	public void stop() {
-		//TODO
-	}
-
-	public static void launch(String... args) {
-		Application.launch(Zippit.class, args);
-	}
-
-	public static Parent show(URL location, Stage stage, String title, boolean resizable) throws IOException {
-		Parent root = FXMLLoader.load(location);
-
-		stage.setTitle(title);
-		stage.setResizable(resizable);
+		stage.setTitle("Mercury");
+		stage.setResizable(false);
 
 		Scene view = new Scene(root);
 		stage.setScene(view);
 
-		stage.show();
+		LoginController controller = loader.getController();
+		controller.initChannel(channel);
 
-		return root;
+		stage.show();
+	}
+
+	@Override
+	public void stop() {
+		group.shutdownGracefully();
+	}
+
+	public static void launch(String... args) {
+		Application.launch(Zippit.class, args);
 	}
 
 }
