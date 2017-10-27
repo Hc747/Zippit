@@ -1,8 +1,13 @@
 package com.mercury.zippit;
 
+import com.mercury.zippit.configuration.ZippitConfiguration;
+import com.mercury.zippit.configuration.ZippitConfigurationBuilder;
 import com.mercury.zippit.mvc.controllers.login.LoginController;
 import com.mercury.zippit.net.ZippitChannelInitialiser;
 import com.mercury.zippit.net.ZippitHandler;
+import com.mercury.zippit.net.codec.handshake.HandshakeRequest;
+import com.mercury.zippit.net.codec.handshake.HandshakeService;
+import com.mercury.zippit.net.codec.login.LoginRequest;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -29,9 +34,16 @@ public final class Zippit extends Application {
 	private final EventLoopGroup group = new NioEventLoopGroup();
 
 	private Channel channel;
+	private ZippitConfiguration configuration;
 
 	@Override
 	public void init() {
+		ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
+
+		//TODO: dynamic population of configuration
+
+		configuration = builder.create();
+
 		bootstrap.group(group);
 		bootstrap.channel(NioSocketChannel.class);
 
@@ -39,10 +51,16 @@ public final class Zippit extends Application {
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 
-		ChannelFuture connection = bootstrap.connect("127.0.0.1", 43595).syncUninterruptibly();
+		ChannelFuture connection = bootstrap.connect("127.0.0.1", configuration.getPort()).syncUninterruptibly();
 
 		channel = connection.channel();
 		//TODO: use constants
+
+		HandshakeRequest handshake = new HandshakeRequest(configuration.getVersion(), HandshakeService.LOGIN);
+		channel.writeAndFlush(handshake);
+
+		LoginRequest login = new LoginRequest("Hc747", "Password_123@", false);
+		channel.writeAndFlush(login);
 	}
 
 	@Override

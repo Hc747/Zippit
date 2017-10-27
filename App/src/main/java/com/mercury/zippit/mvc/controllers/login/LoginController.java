@@ -1,8 +1,6 @@
 package com.mercury.zippit.mvc.controllers.login;
 
-import com.mercury.zippit.net.codec.login.LoginRequest;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,14 +43,14 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private void login() {
-		LoginRequest request = new LoginRequest(username.getText(), password.getText(), false);
+		/*LoginRequest request = new LoginRequest(username.getText(), password.getText(), false);
 
 		login.setDisable(true);
 
 		ChannelFuture future = channel.writeAndFlush(request);
 		future.addListener(operation -> {
 			login.setDisable(false);
-		});
+		});*/
 	}
 
 	public void initChannel(Channel channel) { //TODO: temp

@@ -3,9 +3,10 @@ package com.mercury.zippit.net.codec.handshake;
 import com.google.common.collect.ImmutableMap;
 import com.mercury.zippit.net.codec.login.LoginDecoder;
 import com.mercury.zippit.net.codec.login.LoginEncoder;
+import com.mercury.zippit.net.codec.registration.RegistrationDecoder;
+import com.mercury.zippit.net.codec.registration.RegistrationEncoder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
-import kotlin.NotImplementedError;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +29,9 @@ enum HandshakeService {
 	REGISTRATION {
 		@Override
 		void handle(ChannelHandlerContext context) {
-			throw new NotImplementedError("TODO: implement registration handler");
-			//TODO
+			ChannelPipeline pipeline = context.pipeline();
+			pipeline.replace(HandshakeDecoder.class, RegistrationDecoder.class.getSimpleName(), new RegistrationDecoder());
+			pipeline.replace(HandshakeEncoder.class, RegistrationEncoder.class.getSimpleName(), new RegistrationEncoder());
 		}
 	};
 

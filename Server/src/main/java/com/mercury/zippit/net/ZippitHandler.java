@@ -29,12 +29,11 @@ public final class ZippitHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext context, Object message) throws Exception {
 		try {
 			Channel channel = context.channel();
-			logger.info(String.format("channelRead: %s", channel));
+			logger.info(String.format("channelRead: %s, %s", message, channel));
 			Session session = channel.attr(SESSION_KEY).get();
 
 			if (session != null)
 				session.onMessageReceived(message);
-
 		} finally {
 			ReferenceCountUtil.release(message);
 		}

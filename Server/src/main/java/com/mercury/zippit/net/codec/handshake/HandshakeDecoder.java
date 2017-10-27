@@ -20,10 +20,10 @@ public final class HandshakeDecoder extends ByteToMessageDecoder {
 	protected void decode(ChannelHandlerContext context, ByteBuf buffer, List<Object> out) {
 		if (!buffer.isReadable(BLOCK_LENGTH)) return;
 
-		Version remote = new Version(buffer.readShort(), buffer.readShort());
+		Version version = new Version(buffer.readShort(), buffer.readShort());
 		HandshakeService service = HandshakeService.lookup(buffer.readUnsignedByte());
 
-		out.add(new HandshakeRequest(remote, service));
+		context.channel().writeAndFlush(new HandshakeRequest(version, service));
 	}
 
 }

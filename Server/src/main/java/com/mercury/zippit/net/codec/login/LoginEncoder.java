@@ -16,8 +16,8 @@ public final class LoginEncoder extends MessageToByteEncoder<Object> {//TODO: sp
 	private static final Logger logger = Logger.getLogger(LoginEncoder.class.getSimpleName());
 
 	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) {
-		logger.info("TODO");
+	protected void encode(ChannelHandlerContext context, Object o, ByteBuf byteBuf) {
+		logger.info("TODO: implement");
 	}
 
 }

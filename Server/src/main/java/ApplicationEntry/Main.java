@@ -16,7 +16,7 @@ public final class Main {
 	public static void main(String[] args) {
 		ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
 
-		//TODO: dynamic population of com.mercury.zippit.configuration
+		//TODO: dynamic population of configuration
 
 		ZippitConfiguration configuration = builder.create();
 

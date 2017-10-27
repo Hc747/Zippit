@@ -6,9 +6,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-import java.util.logging.Logger;
-
-import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.*;
+import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.INVALID_SERVICE;
+import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.OUTDATED;
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
@@ -16,8 +15,6 @@ import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.*;
  * @since 27/10/17
  */
 public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeRequest> {
-
-	private static final Logger logger = Logger.getLogger(HandshakeEncoder.class.getSimpleName());
 
 	private final Version version;
 
@@ -28,8 +25,6 @@ public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeReques
 
 	@Override
 	protected void encode(ChannelHandlerContext context, HandshakeRequest request, ByteBuf out) {
-		logger.info(String.format("received request: %s", request));
-
 		if (!version.equals(request.getVersion())) {
 			fail(out, OUTDATED);
 			return;
@@ -42,13 +37,12 @@ public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeReques
 			return;
 		}
 
-		out.writeByte(SUCCESS);
+		out.writeBoolean(true);
 		service.handle(context);
 	}
 
 	private void fail(ByteBuf buffer, String reason) {
-		logger.info(String.format("failed: %s", reason)); //TODO: remove
-		buffer.writeByte(FAILURE);
+		buffer.writeBoolean(false);
 		ByteBufUtilities.writeString(buffer, reason);
 	}
 

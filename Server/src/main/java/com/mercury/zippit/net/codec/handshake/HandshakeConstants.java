@@ -11,10 +11,6 @@ final class HandshakeConstants {
 
 	static final int BLOCK_LENGTH = 5;
 
-	static final int SUCCESS = 1;
-
-	static final int FAILURE = 0;
-
 	static final String OUTDATED = "Your client is outdated. Please ensure you have the latest version.";
 
 	static final String INVALID_SERVICE = "Invalid service requested. Could not complete your request.";

@@ -1,7 +1,7 @@
 package com.mercury.zippit.net;
 
-import com.mercury.zippit.net.codec.login.LoginDecoder;
-import com.mercury.zippit.net.codec.login.LoginEncoder;
+import com.mercury.zippit.net.codec.handshake.HandshakeDecoder;
+import com.mercury.zippit.net.codec.handshake.HandshakeEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -24,8 +24,8 @@ public final class ZippitChannelInitialiser extends ChannelInitializer<SocketCha
 	@Override
 	protected void initChannel(SocketChannel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
-		pipeline.addLast(LoginDecoder.class.getSimpleName(), new LoginDecoder());
-		pipeline.addLast(LoginEncoder.class.getSimpleName(), new LoginEncoder());
+		pipeline.addLast(HandshakeDecoder.class.getSimpleName(), new HandshakeDecoder());
+		pipeline.addLast(HandshakeEncoder.class.getSimpleName(), new HandshakeEncoder());
 		pipeline.addLast(ZippitHandler.class.getSimpleName(), handler);
 	}
 }

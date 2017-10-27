@@ -125,6 +125,11 @@
             <artifactId>Zippit-Utilities</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.mercury</groupId>
+            <artifactId>Zippit-Configuration</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
     
