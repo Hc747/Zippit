@@ -30,15 +30,15 @@ public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeReques
 			return;
 		}
 
-		HandshakeService service = request.getService();
+		HandshakeRequestEndpoint endpoint = request.getEndpoint();
 
-		if (service == null) {
+		if (endpoint == null) {
 			fail(out, INVALID_SERVICE);
 			return;
 		}
 
 		out.writeBoolean(true);
-		service.handle(context);
+		endpoint.handle(context);
 	}
 
 	private void fail(ByteBuf buffer, String reason) {

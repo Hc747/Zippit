@@ -7,4 +7,4 @@ import com.mercury.zippit.configuration.Version
  * @version 1.0
  * @since 26/10/17
  */
-internal data class HandshakeRequest(val version: Version, val service: HandshakeService)
+internal data class HandshakeRequest(val version: Version, val endpoint: HandshakeRequestEndpoint)

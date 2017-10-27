@@ -5,7 +5,7 @@ package com.mercury.zippit.net.codec.handshake;
  * @version 1.0
  * @since 27/10/17
  */
-public enum HandshakeService {
+public enum HandshakeRequestEndpoint {
 
 	LOGIN,
 	REGISTRATION

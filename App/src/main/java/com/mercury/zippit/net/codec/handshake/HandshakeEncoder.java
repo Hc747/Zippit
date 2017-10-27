@@ -14,7 +14,7 @@ public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeReques
 	@Override
 	protected void encode(ChannelHandlerContext context, HandshakeRequest request, ByteBuf out) {
 		out.writeInt((request.getVersion().getMajor() << 16) | (request.getVersion().getMinor() & 0xFFFF));
-		out.writeByte(request.getService().ordinal());
+		out.writeByte(request.getEndpoint().ordinal());
 	}
 
 }

@@ -6,7 +6,7 @@ import com.mercury.zippit.mvc.controllers.login.LoginController;
 import com.mercury.zippit.net.ZippitChannelInitialiser;
 import com.mercury.zippit.net.ZippitHandler;
 import com.mercury.zippit.net.codec.handshake.HandshakeRequest;
-import com.mercury.zippit.net.codec.handshake.HandshakeService;
+import com.mercury.zippit.net.codec.handshake.HandshakeRequestEndpoint;
 import com.mercury.zippit.net.codec.login.LoginRequest;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -56,7 +56,7 @@ public final class Zippit extends Application {
 		channel = connection.channel();
 		//TODO: use constants
 
-		HandshakeRequest handshake = new HandshakeRequest(configuration.getVersion(), HandshakeService.LOGIN);
+		HandshakeRequest handshake = new HandshakeRequest(configuration.getVersion(), HandshakeRequestEndpoint.LOGIN);
 		channel.writeAndFlush(handshake);
 
 		LoginRequest login = new LoginRequest("Hc747", "Password_123@", false);

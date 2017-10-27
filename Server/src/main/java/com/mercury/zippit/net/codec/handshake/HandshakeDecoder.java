@@ -21,9 +21,9 @@ public final class HandshakeDecoder extends ByteToMessageDecoder {
 		if (!buffer.isReadable(BLOCK_LENGTH)) return;
 
 		Version version = new Version(buffer.readShort(), buffer.readShort());
-		HandshakeService service = HandshakeService.lookup(buffer.readUnsignedByte());
+		HandshakeRequestEndpoint endpoint = HandshakeRequestEndpoint.lookup(buffer.readUnsignedByte());
 
-		context.channel().writeAndFlush(new HandshakeRequest(version, service));
+		context.channel().writeAndFlush(new HandshakeRequest(version, endpoint));
 	}
 
 }

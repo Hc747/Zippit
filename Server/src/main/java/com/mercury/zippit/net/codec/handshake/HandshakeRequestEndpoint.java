@@ -16,7 +16,7 @@ import java.util.Map;
  * @version 1.0
  * @since 27/10/17
  */
-enum HandshakeService {
+enum HandshakeRequestEndpoint {
 
 	LOGIN {
 		@Override
@@ -37,19 +37,19 @@ enum HandshakeService {
 
 	abstract void handle(ChannelHandlerContext context);
 
-	private static final ImmutableMap<Integer, HandshakeService> services;
+	private static final ImmutableMap<Integer, HandshakeRequestEndpoint> ENDPOINTS;
 
-	static HandshakeService lookup(int id) {
-		return services.get(id);
+	static HandshakeRequestEndpoint lookup(int id) {
+		return ENDPOINTS.get(id);
 	}
 
 	static {
-		Map<Integer, HandshakeService> values = new HashMap<>();
+		Map<Integer, HandshakeRequestEndpoint> values = new HashMap<>();
 
-		for (HandshakeService service : HandshakeService.values())
+		for (HandshakeRequestEndpoint service : HandshakeRequestEndpoint.values())
 			values.put(service.ordinal(), service);
 
-		services = ImmutableMap.copyOf(values);
+		ENDPOINTS = ImmutableMap.copyOf(values);
 	}
 
 }
