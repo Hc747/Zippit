@@ -7,6 +7,6 @@ package com.mercury.zippit.builder;
  */
 public interface Builder<T> {
 
-	T build();
+	T create();
 
 }

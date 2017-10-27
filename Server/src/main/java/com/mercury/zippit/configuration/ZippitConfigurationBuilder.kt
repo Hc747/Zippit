@@ -1,5 +1,7 @@
 package com.mercury.zippit.configuration
 
+import com.mercury.zippit.builder.Builder
+
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
  * @version 1.0
@@ -18,7 +20,7 @@ data class ZippitConfiguration internal constructor(val port: Int, val version: 
     }
 }
 
-class ZippitConfigurationBuilder internal constructor() {
+class ZippitConfigurationBuilder internal constructor(): Builder<ZippitConfiguration> {
 
     private var port = ZippitConstants.DEFAULT_PORT
     private var version = Version(ZippitConstants.VERSION_MAJOR, ZippitConstants.VERSION_MINOR)
@@ -33,7 +35,7 @@ class ZippitConfigurationBuilder internal constructor() {
         return this
     }
 
-    fun create(): ZippitConfiguration {
+    override fun create(): ZippitConfiguration {
         return ZippitConfiguration(port, version)
     }
 
