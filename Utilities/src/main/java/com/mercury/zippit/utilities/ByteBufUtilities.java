@@ -1,4 +1,4 @@
-package utilities;
+package com.mercury.zippit.utilities;
 
 import io.netty.buffer.ByteBuf;
 

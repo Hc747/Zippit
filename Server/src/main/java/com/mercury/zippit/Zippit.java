@@ -13,16 +13,12 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-import java.util.logging.Logger;
-
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
  * @version 1.0
  * @since 24/10/17
  */
 public class Zippit implements Runnable {
-
-	private static final Logger logger = Logger.getLogger(Zippit.class.getSimpleName());
 
 	private final ServerBootstrap bootstrap = new ServerBootstrap();
 	private final EventLoopGroup group = new NioEventLoopGroup();

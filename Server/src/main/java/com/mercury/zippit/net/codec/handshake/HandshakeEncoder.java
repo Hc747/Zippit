@@ -1,10 +1,10 @@
 package com.mercury.zippit.net.codec.handshake;
 
 import com.mercury.zippit.configuration.Version;
+import com.mercury.zippit.utilities.ByteBufUtilities;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import utilities.ByteBufUtilities;
 
 import java.util.logging.Logger;
 

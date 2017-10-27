@@ -1,10 +1,10 @@
 package com.mercury.zippit.net.codec.login;
 
+import com.mercury.zippit.utilities.ByteBufUtilities;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.ReferenceCountUtil;
-import utilities.ByteBufUtilities;
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com

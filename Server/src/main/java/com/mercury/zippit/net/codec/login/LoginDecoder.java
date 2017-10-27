@@ -1,9 +1,9 @@
 package com.mercury.zippit.net.codec.login;
 
+import com.mercury.zippit.utilities.ByteBufUtilities;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import utilities.ByteBufUtilities;
 
 import java.util.List;
 import java.util.logging.Logger;
