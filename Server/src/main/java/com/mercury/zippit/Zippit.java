@@ -39,7 +39,7 @@ public class Zippit {
 			bootstrap.channel(NioServerSocketChannel.class);
 
 			bootstrap.handler(new LoggingHandler(LogLevel.INFO));//TODO
-			bootstrap.childHandler(new ZippitChannelInitialiser(new ZippitHandler()));
+			bootstrap.childHandler(new ZippitChannelInitialiser(new ZippitHandler(), configuration.getVersion()));
 
 			bootstrap.option(ChannelOption.SO_BACKLOG, 128);
 			bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);

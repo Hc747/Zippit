@@ -2,6 +2,7 @@ package ApplicationEntry;
 
 import com.mercury.zippit.Zippit;
 import com.mercury.zippit.configuration.ZippitConfiguration;
+import com.mercury.zippit.configuration.ZippitConfigurationBuilder;
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
@@ -13,11 +14,11 @@ public final class Main {
 	private Main() {}
 
 	public static void main(String[] args) throws Exception {
-		ZippitConfiguration.ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
+		ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
 
 		//TODO: populate builder vars
 
-		ZippitConfiguration configuration = builder.build();
+		ZippitConfiguration configuration = builder.create();
 
 		Zippit zippit = new Zippit(configuration);
 

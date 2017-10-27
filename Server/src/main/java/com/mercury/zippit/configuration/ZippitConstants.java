@@ -11,4 +11,8 @@ public final class ZippitConstants {
 
 	public static final int DEFAULT_PORT = 43595;
 
+	public static final int VERSION_MAJOR = 1;
+
+	public static final int VERSION_MINOR = 1;
+
 }

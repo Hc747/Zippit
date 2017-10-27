@@ -1,7 +1,8 @@
 package com.mercury.zippit.net;
 
-import com.mercury.zippit.net.codec.login.LoginDecoder;
-import com.mercury.zippit.net.codec.login.LoginEncoder;
+import com.mercury.zippit.configuration.Version;
+import com.mercury.zippit.net.codec.handshake.HandshakeDecoder;
+import com.mercury.zippit.net.codec.handshake.HandshakeEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -17,17 +18,22 @@ import java.util.Objects;
 public final class ZippitChannelInitialiser extends ChannelInitializer<SocketChannel> {
 
 	private final ZippitHandler handler;
+	private final Version version;
 
-	public ZippitChannelInitialiser(ZippitHandler handler) {
+	public ZippitChannelInitialiser(ZippitHandler handler, Version version) {
 		this.handler = Objects.requireNonNull(handler, "handler");
+		this.version = Objects.requireNonNull(version, "version");
 	}
 
 	@Override
 	protected void initChannel(SocketChannel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
-		pipeline.addLast(LoginDecoder.class.getSimpleName(), new LoginDecoder());
-		pipeline.addLast(LoginEncoder.class.getSimpleName(), new LoginEncoder());
+		pipeline.addLast(HandshakeDecoder.class.getSimpleName(), new HandshakeDecoder());
+		pipeline.addLast(HandshakeEncoder.class.getSimpleName(), new HandshakeEncoder(version));
 		pipeline.addLast(IdleStateHandler.class.getSimpleName(), new IdleStateHandler(NetworkConstants.IDLE_TIME, 0, 0));
+
+		//TODO: consider using a seperate thread pool for the "handler"
+		//if the business logic is not async or takes a long time to compute
 		pipeline.addLast(ZippitHandler.class.getSimpleName(), handler);
 	}
 
