@@ -21,9 +21,6 @@
                 <includes>
                     <include>**/*.fxml</include>
                     <include>**/*.css</include>
-                    <!--
-                    <include>**/*.scss</include>
-                    -->
                 </includes>
             </resource>
 
@@ -105,7 +102,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.15.Final</version>
+            <version>4.1.16.Final</version>
         </dependency>
 
         <dependency>
@@ -120,11 +117,13 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.mercury</groupId>
             <artifactId>Zippit-Utilities</artifactId>
             <version>1.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.mercury</groupId>
             <artifactId>Zippit-Configuration</artifactId>

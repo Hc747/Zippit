@@ -14,30 +14,30 @@ import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.OUTDATED
  * @version 1.0
  * @since 27/10/17
  */
-public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeRequest> {
+public final class HandshakeResponseEncoder extends MessageToByteEncoder<HandshakeRequest> {
 
 	private final Version version;
 
-	public HandshakeEncoder(Version version) {
+	public HandshakeResponseEncoder(Version version) {
 		super(HandshakeRequest.class);
 		this.version = version;
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext context, HandshakeRequest request, ByteBuf out) {
+	protected void encode(ChannelHandlerContext context, HandshakeRequest request, ByteBuf response) {
 		if (!version.equals(request.getVersion())) {
-			fail(out, OUTDATED);
+			fail(response, OUTDATED);
 			return;
 		}
 
 		HandshakeRequestEndpoint endpoint = request.getEndpoint();
 
 		if (endpoint == null) {
-			fail(out, INVALID_SERVICE);
+			fail(response, INVALID_SERVICE);
 			return;
 		}
 
-		out.writeBoolean(true);
+		response.writeBoolean(true);
 		endpoint.handle(context);
 	}
 

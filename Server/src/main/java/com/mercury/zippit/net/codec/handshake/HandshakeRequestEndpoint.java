@@ -1,10 +1,10 @@
 package com.mercury.zippit.net.codec.handshake;
 
 import com.google.common.collect.ImmutableMap;
-import com.mercury.zippit.net.codec.login.LoginDecoder;
-import com.mercury.zippit.net.codec.login.LoginEncoder;
-import com.mercury.zippit.net.codec.registration.RegistrationDecoder;
-import com.mercury.zippit.net.codec.registration.RegistrationEncoder;
+import com.mercury.zippit.net.codec.login.LoginRequestDecoder;
+import com.mercury.zippit.net.codec.login.LoginResponseEncoder;
+import com.mercury.zippit.net.codec.registration.RegistrationRequestDecoder;
+import com.mercury.zippit.net.codec.registration.RegistrationResponseEncoder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 
@@ -22,16 +22,16 @@ enum HandshakeRequestEndpoint {
 		@Override
 		void handle(ChannelHandlerContext context) {
 			ChannelPipeline pipeline = context.pipeline();
-			pipeline.replace(HandshakeDecoder.class, LoginDecoder.class.getSimpleName(), new LoginDecoder());
-			pipeline.replace(HandshakeEncoder.class, LoginEncoder.class.getSimpleName(), new LoginEncoder());
+			pipeline.replace(HandshakeRequestDecoder.class, LoginRequestDecoder.class.getSimpleName(), new LoginRequestDecoder());
+			pipeline.replace(HandshakeResponseEncoder.class, LoginResponseEncoder.class.getSimpleName(), new LoginResponseEncoder());
 		}
 	},
 	REGISTRATION {
 		@Override
 		void handle(ChannelHandlerContext context) {
 			ChannelPipeline pipeline = context.pipeline();
-			pipeline.replace(HandshakeDecoder.class, RegistrationDecoder.class.getSimpleName(), new RegistrationDecoder());
-			pipeline.replace(HandshakeEncoder.class, RegistrationEncoder.class.getSimpleName(), new RegistrationEncoder());
+			pipeline.replace(HandshakeRequestDecoder.class, RegistrationRequestDecoder.class.getSimpleName(), new RegistrationRequestDecoder());
+			pipeline.replace(HandshakeResponseEncoder.class, RegistrationResponseEncoder.class.getSimpleName(), new RegistrationResponseEncoder());
 		}
 	};
 

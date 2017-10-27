@@ -1,10 +1,10 @@
 package com.mercury.zippit.net.codec.login;
 
-import com.mercury.zippit.utilities.ByteBufUtilities;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.ReferenceCountUtil;
+
+import static com.mercury.zippit.utilities.ByteBufUtilities.writeString;
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
@@ -19,17 +19,9 @@ public final class LoginEncoder extends MessageToByteEncoder<LoginRequest> {
 
 	@Override
 	protected void encode(ChannelHandlerContext context, LoginRequest request, ByteBuf out) {
-		ByteBuf data = context.alloc().buffer();
-
-		try {
-			ByteBufUtilities.writeString(data, request.getUsername());
-			ByteBufUtilities.writeString(data, request.getPassword());
-			data.writeBoolean(request.getReconnecting());
-
-			out.writeBytes(data);
-		} finally {
-			ReferenceCountUtil.release(data);
-		}
+		out.writeBoolean(request.isReconnecting());
+		writeString(out, request.getUsername());
+		writeString(out, request.getPassword());
 	}
 
 }

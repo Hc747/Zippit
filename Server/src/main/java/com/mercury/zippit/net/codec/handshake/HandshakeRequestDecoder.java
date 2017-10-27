@@ -14,7 +14,7 @@ import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.BLOCK_LE
  * @version 1.0
  * @since 27/10/17
  */
-public final class HandshakeDecoder extends ByteToMessageDecoder {
+public final class HandshakeRequestDecoder extends ByteToMessageDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext context, ByteBuf buffer, List<Object> out) {

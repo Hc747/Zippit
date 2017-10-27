@@ -12,9 +12,9 @@ import java.util.logging.Logger;
  * @version 1.0
  * @since 27/10/17
  */
-public final class RegistrationDecoder extends ByteToMessageDecoder {
+public final class RegistrationRequestDecoder extends ByteToMessageDecoder {
 
-	private static final Logger logger = Logger.getLogger(RegistrationDecoder.class.getSimpleName());
+	private static final Logger logger = Logger.getLogger(RegistrationRequestDecoder.class.getSimpleName());
 
 	@Override
 	protected void decode(ChannelHandlerContext context, ByteBuf buffer, List<Object> out) {

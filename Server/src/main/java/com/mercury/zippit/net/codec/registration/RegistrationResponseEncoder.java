@@ -11,9 +11,9 @@ import java.util.logging.Logger;
  * @version 1.0
  * @since 27/10/17
  */
-public final class RegistrationEncoder extends MessageToByteEncoder<Object> {//TODO: specified type
+public final class RegistrationResponseEncoder extends MessageToByteEncoder<Object> {//TODO: specified type
 
-	private static final Logger logger = Logger.getLogger(RegistrationEncoder.class.getSimpleName());
+	private static final Logger logger = Logger.getLogger(RegistrationResponseEncoder.class.getSimpleName());
 
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) {

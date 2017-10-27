@@ -1,8 +1,8 @@
 package com.mercury.zippit.net;
 
 import com.mercury.zippit.configuration.Version;
-import com.mercury.zippit.net.codec.handshake.HandshakeDecoder;
-import com.mercury.zippit.net.codec.handshake.HandshakeEncoder;
+import com.mercury.zippit.net.codec.handshake.HandshakeRequestDecoder;
+import com.mercury.zippit.net.codec.handshake.HandshakeResponseEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -28,8 +28,8 @@ public final class ZippitChannelInitialiser extends ChannelInitializer<SocketCha
 	@Override
 	protected void initChannel(SocketChannel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
-		pipeline.addLast(HandshakeDecoder.class.getSimpleName(), new HandshakeDecoder());
-		pipeline.addLast(HandshakeEncoder.class.getSimpleName(), new HandshakeEncoder(version));
+		pipeline.addLast(HandshakeRequestDecoder.class.getSimpleName(), new HandshakeRequestDecoder());
+		pipeline.addLast(HandshakeResponseEncoder.class.getSimpleName(), new HandshakeResponseEncoder(version));
 		pipeline.addLast(IdleStateHandler.class.getSimpleName(), new IdleStateHandler(NetworkConstants.IDLE_TIME, 0, 0));
 
 		//TODO: consider using a seperate thread pool for the "handler"
