@@ -5,4 +5,4 @@ package com.mercury.zippit.net.codec.registration
  * @version 1.0
  * @since 26/10/17
  */
-data class RegistrationRequest(val username: String, val password: String, val email: String)
+internal data class RegistrationRequest(val username: String, val password: String, val email: String)

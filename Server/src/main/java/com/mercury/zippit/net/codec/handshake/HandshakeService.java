@@ -15,7 +15,7 @@ import java.util.Map;
  * @version 1.0
  * @since 27/10/17
  */
-public enum HandshakeService {
+enum HandshakeService {
 
 	LOGIN {
 		@Override
@@ -37,7 +37,7 @@ public enum HandshakeService {
 
 	private static final ImmutableMap<Integer, HandshakeService> services;
 
-	public static HandshakeService lookup(int id) {
+	static HandshakeService lookup(int id) {
 		return services.get(id);
 	}
 

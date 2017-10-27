@@ -5,4 +5,4 @@ package com.mercury.zippit.net.codec.handshake
  * @version 1.0
  * @since 26/10/17
  */
-data class HandshakeRequest(val versionMajor: Int, val versionMinor: Int, val serviceId: Int)
+internal data class HandshakeRequest(val versionMajor: Int, val versionMinor: Int, val serviceId: Int)

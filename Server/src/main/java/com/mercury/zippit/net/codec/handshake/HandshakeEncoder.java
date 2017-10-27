@@ -15,7 +15,7 @@ import static com.mercury.zippit.net.codec.handshake.HandshakeConstants.*;
  * @version 1.0
  * @since 27/10/17
  */
-public class HandshakeEncoder extends MessageToByteEncoder<HandshakeRequest> {
+public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeRequest> {
 
 	private static final Logger logger = Logger.getLogger(HandshakeEncoder.class.getSimpleName());
 
