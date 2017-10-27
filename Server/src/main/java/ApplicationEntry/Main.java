@@ -13,16 +13,14 @@ public final class Main {
 
 	private Main() {}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		ZippitConfigurationBuilder builder = ZippitConfiguration.builder();
 
-		//TODO: populate builder vars
+		//TODO: dynamic population of configuration
 
 		ZippitConfiguration configuration = builder.create();
 
-		Zippit zippit = new Zippit(configuration);
-
-		zippit.run();
+		new Zippit(configuration).run();
 	}
 
 }

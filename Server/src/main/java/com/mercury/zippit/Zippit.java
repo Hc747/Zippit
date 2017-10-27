@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @version 1.0
  * @since 24/10/17
  */
-public class Zippit {
+public class Zippit implements Runnable {
 
 	private static final Logger logger = Logger.getLogger(Zippit.class.getSimpleName());
 
@@ -33,6 +33,7 @@ public class Zippit {
 		this.configuration = Preconditions.checkNotNull(configuration, "configuration");
 	}
 
+	@Override
 	public void run() {
 		try {
 			bootstrap.group(group);
