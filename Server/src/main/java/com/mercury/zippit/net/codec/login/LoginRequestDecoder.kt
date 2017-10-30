@@ -1,7 +1,7 @@
 package com.mercury.zippit.net.codec.login
 
+import com.mercury.zippit.extensions.readString
 import com.mercury.zippit.net.codec.login.LoginConstants.HEADER_LENGTH
-import com.mercury.zippit.utilities.ByteBufUtilities.readString
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -13,11 +13,11 @@ import io.netty.handler.codec.ByteToMessageDecoder
  */
 class LoginRequestDecoder : ByteToMessageDecoder() {
 
-    //TODO: security
+    //TODO: security / validation
     //TODO: length checks
     //TODO: state
 
-    override fun decode(context: ChannelHandlerContext, buffer: ByteBuf, out: List<Any>) {
+    override fun decode(context: ChannelHandlerContext, buffer: ByteBuf, out: MutableList<Any>) {
         if (!buffer.isReadable(HEADER_LENGTH)) return
 
         val length = buffer.readUnsignedShort()
@@ -28,8 +28,8 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
         }
 
         val timestamp = buffer.readLong()
-        val username = readString(buffer)
-        val password = readString(buffer)
+        val username = buffer.readString()
+        val password = buffer.readString()
 
         context.channel().writeAndFlush(LoginRequest(timestamp, username, password))
     }

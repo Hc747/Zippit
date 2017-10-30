@@ -1,8 +1,8 @@
 package com.mercury.zippit.net.codec.login
 
+import com.mercury.zippit.extensions.writeString
 import com.mercury.zippit.net.message.MessageLength
 import com.mercury.zippit.net.message.OutboundMessage
-import com.mercury.zippit.utilities.ByteBufUtilities.writeString
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
@@ -19,8 +19,8 @@ data class LoginRequest(private val username: String, private val password: Stri
         val buffer = Unpooled.buffer()
 
         buffer.writeLong(timestamp)
-        writeString(buffer, username)
-        writeString(buffer, password)
+        buffer.writeString(username)
+        buffer.writeString(password)
 
         return buffer
     }

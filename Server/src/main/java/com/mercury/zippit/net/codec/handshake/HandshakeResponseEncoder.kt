@@ -1,10 +1,10 @@
 package com.mercury.zippit.net.codec.handshake
 
 import com.mercury.zippit.configuration.Version
+import com.mercury.zippit.extensions.writeString
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.FAILURE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.INVALID_SERVICE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.OUTDATED
-import com.mercury.zippit.utilities.ByteBufUtilities.writeString
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -42,9 +42,8 @@ class HandshakeResponseEncoder(private val version: Version) : MessageToByteEnco
     }
 
     private fun fail(buffer: ByteBuf, reason: String) {
-        //TODO:
         buffer.writeByte(FAILURE)
-        writeString(buffer, reason)
+        buffer.writeString(reason)
     }
 
 }

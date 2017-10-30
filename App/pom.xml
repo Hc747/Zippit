@@ -113,12 +113,6 @@
 
         <dependency>
             <groupId>com.mercury</groupId>
-            <artifactId>Zippit-Utilities</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mercury</groupId>
             <artifactId>Zippit-Common</artifactId>
             <version>1.0</version>
         </dependency>

@@ -1,6 +1,6 @@
 package com.mercury.zippit.net.codec.handshake
 
-import com.mercury.zippit.utilities.ByteBufUtilities
+import com.mercury.zippit.extensions.readString
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -27,7 +27,7 @@ class HandshakeDecoder : ByteToMessageDecoder() {
         val endpoint = HandshakeRequestEndpoint.lookup(ordinal)
 
         if (endpoint == null) {
-            logger.info(ByteBufUtilities.readString(buffer)) //TODO: length check
+            logger.info(buffer.readString()) //TODO: length check
             return
         }
 

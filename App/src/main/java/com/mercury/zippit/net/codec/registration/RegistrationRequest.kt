@@ -1,8 +1,8 @@
 package com.mercury.zippit.net.codec.registration
 
-import com.mercury.zippit.net.message.OutboundMessage
+import com.mercury.zippit.extensions.writeString
 import com.mercury.zippit.net.message.MessageLength
-import com.mercury.zippit.utilities.ByteBufUtilities.writeString
+import com.mercury.zippit.net.message.OutboundMessage
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
@@ -19,8 +19,8 @@ internal data class RegistrationRequest(private val username: String, private va
         val buffer = Unpooled.buffer()
 
         buffer.writeLong(timestamp)
-        writeString(buffer, username)
-        writeString(buffer, password)
+        buffer.writeString(username)
+        buffer.writeString(password)
 
         return buffer
     }
