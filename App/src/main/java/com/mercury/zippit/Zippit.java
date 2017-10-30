@@ -57,10 +57,12 @@ public final class Zippit extends Application {
 		//TODO: use constants
 
 		HandshakeRequest handshake = new HandshakeRequest(configuration.getVersion(), HandshakeRequestEndpoint.LOGIN);
-		channel.writeAndFlush(handshake);
-
-		LoginRequest login = new LoginRequest("Hc747", "Password_123@", false);
-		channel.writeAndFlush(login);
+		channel.writeAndFlush(handshake).addListener(task -> {
+			if (task.isSuccess()) {
+				LoginRequest login = new LoginRequest("Hc747", "password$123");
+				channel.writeAndFlush(login);
+			}
+		});
 	}
 
 	@Override

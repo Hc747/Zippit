@@ -11,10 +11,13 @@ import io.netty.handler.codec.MessageToByteEncoder;
  */
 public final class HandshakeEncoder extends MessageToByteEncoder<HandshakeRequest> {
 
+	public HandshakeEncoder() {
+		super(HandshakeRequest.class);
+	}
+
 	@Override
 	protected void encode(ChannelHandlerContext context, HandshakeRequest request, ByteBuf out) {
-		out.writeInt((request.getVersion().getMajor() << 16) | (request.getVersion().getMinor() & 0xFFFF));
-		out.writeByte(request.getEndpoint().ordinal());
+		request.writeTo(out);
 	}
 
 }

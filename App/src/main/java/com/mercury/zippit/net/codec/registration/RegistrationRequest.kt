@@ -1,8 +1,28 @@
 package com.mercury.zippit.net.codec.registration
 
+import com.mercury.zippit.net.message.OutboundMessage
+import com.mercury.zippit.net.message.MessageLength
+import com.mercury.zippit.utilities.ByteBufUtilities.writeString
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
+
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
  * @version 1.0
  * @since 26/10/17
  */
-internal data class RegistrationRequest(val username: String, val password: String, val email: String)
+internal data class RegistrationRequest(private val username: String, private val password: String): OutboundMessage(MessageLength.SHORT) {
+
+    private val timestamp: Long = System.currentTimeMillis()
+
+    override fun encode(): ByteBuf {
+        val buffer = Unpooled.buffer()
+
+        buffer.writeLong(timestamp)
+        writeString(buffer, username)
+        writeString(buffer, password)
+
+        return buffer
+    }
+
+}
