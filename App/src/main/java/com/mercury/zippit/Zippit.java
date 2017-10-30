@@ -5,9 +5,6 @@ import com.mercury.zippit.configuration.ZippitConfigurationBuilder;
 import com.mercury.zippit.mvc.controllers.login.LoginController;
 import com.mercury.zippit.net.ZippitChannelInitialiser;
 import com.mercury.zippit.net.ZippitHandler;
-import com.mercury.zippit.net.codec.handshake.HandshakeRequest;
-import com.mercury.zippit.net.codec.handshake.HandshakeRequestEndpoint;
-import com.mercury.zippit.net.codec.login.LoginRequest;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -54,15 +51,6 @@ public final class Zippit extends Application {
 		ChannelFuture connection = bootstrap.connect("127.0.0.1", configuration.getPort()).syncUninterruptibly();
 
 		channel = connection.channel();
-		//TODO: use constants
-
-		HandshakeRequest handshake = new HandshakeRequest(configuration.getVersion(), HandshakeRequestEndpoint.LOGIN);
-		channel.writeAndFlush(handshake).addListener(task -> {
-			if (task.isSuccess()) {
-				LoginRequest login = new LoginRequest("Hc747", "password$123");
-				channel.writeAndFlush(login);
-			}
-		});
 	}
 
 	@Override
@@ -78,7 +66,7 @@ public final class Zippit extends Application {
 		stage.setScene(view);
 
 		LoginController controller = loader.getController();
-		controller.initChannel(channel);
+		controller.init(configuration.getVersion(), channel);
 
 		stage.show();
 	}

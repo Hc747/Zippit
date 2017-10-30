@@ -1,9 +1,9 @@
 package com.mercury.zippit.net.codec.handshake
 
-import com.mercury.zippit.net.codec.login.LoginRequestDecoder
-import com.mercury.zippit.net.codec.login.LoginResponseEncoder
-import com.mercury.zippit.net.codec.registration.RegistrationRequestDecoder
-import com.mercury.zippit.net.codec.registration.RegistrationResponseEncoder
+import com.mercury.zippit.net.codec.login.LoginDecoder
+import com.mercury.zippit.net.codec.login.LoginEncoder
+import com.mercury.zippit.net.codec.registration.RegistrationDecoder
+import com.mercury.zippit.net.codec.registration.RegistrationEncoder
 import io.netty.channel.ChannelHandlerContext
 
 /**
@@ -16,15 +16,15 @@ enum class HandshakeRequestEndpoint {
     LOGIN {
         override fun handle(context: ChannelHandlerContext) {
             val pipeline = context.pipeline()
-            pipeline.replace(HandshakeRequestDecoder::class.java.simpleName, LoginRequestDecoder::class.java.simpleName, LoginRequestDecoder())
-            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, LoginResponseEncoder::class.java.simpleName, LoginResponseEncoder())
+            pipeline.replace(HandshakeDecoder::class.java.simpleName, LoginDecoder::class.java.simpleName, LoginDecoder())
+            pipeline.replace(HandshakeEncoder::class.java.simpleName, LoginEncoder::class.java.simpleName, LoginEncoder())
         }
     },
     REGISTRATION {
         override fun handle(context: ChannelHandlerContext) {
             val pipeline = context.pipeline()
-            pipeline.replace(HandshakeRequestDecoder::class.java.simpleName, RegistrationRequestDecoder::class.java.simpleName, RegistrationRequestDecoder())
-            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, RegistrationResponseEncoder::class.java.simpleName, RegistrationResponseEncoder())
+            pipeline.replace(HandshakeDecoder::class.java.simpleName, RegistrationDecoder::class.java.simpleName, RegistrationDecoder())
+            pipeline.replace(HandshakeEncoder::class.java.simpleName, RegistrationEncoder::class.java.simpleName, RegistrationEncoder())
         }
     };
 

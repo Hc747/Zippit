@@ -11,7 +11,7 @@ import io.netty.buffer.Unpooled
  * @version 1.0
  * @since 26/10/17
  */
-internal data class LoginRequest(private val username: String, private val password: String): OutboundMessage(MessageLength.SHORT) {
+data class LoginRequest(private val username: String, private val password: String): OutboundMessage(MessageLength.SHORT) {
 
     private val timestamp: Long = System.currentTimeMillis()
 

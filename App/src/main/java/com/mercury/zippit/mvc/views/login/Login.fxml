@@ -14,12 +14,12 @@
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#333333" height="140.0" layoutX="120.0" layoutY="37.0" stroke="#fc1554" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" width="140.0" />
         <Text id="welcome" boundsType="VISUAL" layoutX="112.0" layoutY="218.0" text="Welcome" textOrigin="TOP" AnchorPane.leftAnchor="104.225" AnchorPane.rightAnchor="104.225" />
-        <TextField fx:id="username" layoutX="52.0" layoutY="287.0" prefHeight="22.0" prefWidth="275.0" promptText="Username" />
+        <TextField fx:id="username" layoutX="52.0" layoutY="287.0" prefHeight="22.0" prefWidth="275.0" promptText="Email Address" />
         <PasswordField fx:id="password" layoutX="52.0" layoutY="344.0" prefHeight="22.0" prefWidth="275.0" promptText="Password" />
         <CheckBox fx:id="remember" contentDisplay="CENTER" focusTraversable="false" layoutX="52.0" layoutY="404.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="18.0" selected="true" text="Remember Me" />
         <Button fx:id="settings" focusTraversable="false" layoutX="309.0" layoutY="404.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" pickOnBounds="false" prefHeight="18.0" prefWidth="18.0" styleClass="settings" />
         <Button id="login" fx:id="login" defaultButton="true" layoutX="52.0" layoutY="446.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#login" pickOnBounds="false" prefHeight="55.0" prefWidth="165.0" text="Login" />
-        <Button id="register" fx:id="register" layoutX="162.0" layoutY="446.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" pickOnBounds="false" prefHeight="55.0" prefWidth="165.0" text="Register" />
+        <Button id="register" fx:id="register" layoutX="162.0" layoutY="446.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#register" pickOnBounds="false" prefHeight="55.0" prefWidth="165.0" text="Register" />
         <Text fx:id="recovery" accessibleRole="HYPERLINK" boundsType="VISUAL" layoutX="87.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgotten your password?" textOrigin="TOP" AnchorPane.leftAnchor="77.4653320313" AnchorPane.rightAnchor="77.4653320313">
             <cursor>
                 <Cursor fx:constant="OPEN_HAND" />

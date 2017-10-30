@@ -9,6 +9,8 @@ internal object HandshakeConstants {
 
     val BLOCK_LENGTH = 13
 
+    val FAILURE = -1
+
     val OUTDATED = "Your client is outdated. Please ensure you have the latest version."
 
     val INVALID_SERVICE = "Invalid service requested. Could not complete your request."

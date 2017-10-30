@@ -11,7 +11,7 @@ import io.netty.buffer.Unpooled
  * @version 1.0
  * @since 26/10/17
  */
-internal data class HandshakeRequest(private val version: Version, private val endpoint: HandshakeRequestEndpoint): OutboundMessage(MessageLength.FIXED) {
+data class HandshakeRequest(private val version: Version, private val endpoint: HandshakeRequestEndpoint): OutboundMessage(MessageLength.FIXED) {
 
     private val timestamp: Long = System.currentTimeMillis()
 

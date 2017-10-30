@@ -1,5 +1,10 @@
 package com.mercury.zippit.mvc.controllers.login;
 
+import com.mercury.zippit.configuration.Version;
+import com.mercury.zippit.net.codec.handshake.HandshakeRequest;
+import com.mercury.zippit.net.codec.handshake.HandshakeRequestEndpoint;
+import com.mercury.zippit.net.codec.login.LoginRequest;
+import com.mercury.zippit.net.codec.registration.RegistrationRequest;
 import io.netty.channel.Channel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +24,7 @@ import java.util.ResourceBundle;
  */
 public class LoginController implements Initializable {
 
+	private Version version;
 	private Channel channel;//TODO: use proper data structure
 
 	@FXML
@@ -43,17 +49,32 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private void login() {
-		/*LoginRequest request = new LoginRequest(username.getText(), password.getText(), false);
-
 		login.setDisable(true);
 
-		ChannelFuture future = channel.writeAndFlush(request);
-		future.addListener(operation -> {
-			login.setDisable(false);
-		});*/
+		HandshakeRequest handshake = new HandshakeRequest(version, HandshakeRequestEndpoint.LOGIN);
+		channel.writeAndFlush(handshake);
+		try { Thread.sleep(5000); } catch (Exception e) {
+			e.printStackTrace();
+		}
+		LoginRequest request = new LoginRequest(username.getText(), password.getText());
+		channel.writeAndFlush(request).addListener(y -> login.setDisable(false));
 	}
 
-	public void initChannel(Channel channel) { //TODO: temp
+	@FXML
+	private void register() {
+		register.setDisable(true);
+
+		HandshakeRequest handshake = new HandshakeRequest(version, HandshakeRequestEndpoint.REGISTRATION);
+		channel.writeAndFlush(handshake);
+		try { Thread.sleep(5000); } catch (Exception e) {
+			e.printStackTrace();
+		}
+		RegistrationRequest request = new RegistrationRequest(username.getText(), password.getText());
+		channel.writeAndFlush(request).addListener(y -> register.setDisable(false));
+	}
+
+	public void init(Version version, Channel channel) { //TODO: temp
+		this.version = version;
 		this.channel = channel;
 	}
 

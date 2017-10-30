@@ -1,6 +1,7 @@
 package com.mercury.zippit.net.codec.handshake
 
 import com.mercury.zippit.configuration.Version
+import com.mercury.zippit.net.codec.handshake.HandshakeConstants.FAILURE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.INVALID_SERVICE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.OUTDATED
 import com.mercury.zippit.utilities.ByteBufUtilities.writeString
@@ -36,12 +37,13 @@ class HandshakeResponseEncoder(private val version: Version) : MessageToByteEnco
             return
         }
 
-        response.writeBoolean(true)
         request.endpoint.handle(context)
+        response.writeByte(request.endpoint.ordinal)
     }
 
-    private fun fail(buffer: ByteBuf, reason: String) { //TODO:
-        buffer.writeBoolean(false)
+    private fun fail(buffer: ByteBuf, reason: String) {
+        //TODO:
+        buffer.writeByte(FAILURE)
         writeString(buffer, reason)
     }
 
