@@ -23,4 +23,16 @@ internal object ServiceConstants {
 
     val INVALID_SERVICE = "Invalid service requested. Could not complete your request."
 
+    val INVALID_USERNAME_OR_PASSWORD = "Invalid username or password format."
+
+    val USERNAME_LENGTH_CONSTRAINT = LengthConstraint(4, 32)
+
+    val PASSWORD_LENGTH_CONSTRAINT = LengthConstraint(4, 32)
+
+}
+
+class LengthConstraint(val min: Int, val max: Int) {
+
+    fun validate(input: String) = input.length in min..max
+
 }

@@ -24,13 +24,13 @@ class Zippit(private val configuration: ZippitConfiguration) : Runnable {
 
     override fun run() {
         try {
-            val handler = ZippitHandler()
+            val handler = ZippitHandler(database)
 
             bootstrap.group(group)
             bootstrap.channel(NioServerSocketChannel::class.java)
 
             bootstrap.handler(LoggingHandler(LogLevel.INFO))//TODO
-            bootstrap.childHandler(ZippitChannelInitialiser(handler, database, configuration.version))
+            bootstrap.childHandler(ZippitChannelInitialiser(handler, configuration.version))
 
             bootstrap.option(ChannelOption.SO_BACKLOG, 128)
             bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true)

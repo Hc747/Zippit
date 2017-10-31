@@ -15,7 +15,7 @@ class Database(datasource: Datasource) : AutoCloseable {
 
     private val source = HikariDataSource(HikariConfig(datasource.propertiesLocation))
 
-    private suspend fun getConnection(): Connection = source.getConnectionAsync().await()
+    suspend fun getConnection(): Connection = source.getConnectionAsync().await()
 
     suspend fun <T> executeAndTransform(query: String, transform: (ResultSet) -> T?): T? {
         getConnection().use {

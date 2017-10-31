@@ -5,9 +5,12 @@ import com.mercury.zippit.extensions.readString
 import com.mercury.zippit.extensions.writeString
 import com.mercury.zippit.net.codec.service.ServiceConstants.FAILURE
 import com.mercury.zippit.net.codec.service.ServiceConstants.INVALID_SERVICE
+import com.mercury.zippit.net.codec.service.ServiceConstants.INVALID_USERNAME_OR_PASSWORD
 import com.mercury.zippit.net.codec.service.ServiceConstants.OUTDATED
+import com.mercury.zippit.net.codec.service.ServiceConstants.PASSWORD_LENGTH_CONSTRAINT
 import com.mercury.zippit.net.codec.service.ServiceConstants.REQUEST_VALIDITY_DURATION
 import com.mercury.zippit.net.codec.service.ServiceConstants.TIMEOUT
+import com.mercury.zippit.net.codec.service.ServiceConstants.USERNAME_LENGTH_CONSTRAINT
 import com.mercury.zippit.service.user.Credentials
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -55,11 +58,13 @@ class ServiceRequestDecoder(private val version: Version) : MessageToMessageDeco
             return
         }
 
-        //TODO: validate username & password
-        //username must be an email address, and password must adhere to a certain length
-
         val username = buffer.readString()
         val password = buffer.readString()
+
+        if (!USERNAME_LENGTH_CONSTRAINT.validate(username) || !PASSWORD_LENGTH_CONSTRAINT.validate(password)) {
+            fail(context, INVALID_USERNAME_OR_PASSWORD)
+            return
+        }
 
         val credentials = Credentials(username, password)
         val metadata = ServiceRequest.TransactionMetadata(sent, received, validated = System.currentTimeMillis())
