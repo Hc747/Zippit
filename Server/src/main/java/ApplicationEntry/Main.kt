@@ -1,6 +1,7 @@
 package ApplicationEntry
 
 import com.mercury.zippit.Zippit
+import com.mercury.zippit.configuration.Datasource
 import com.mercury.zippit.configuration.ZippitConfiguration
 
 /**
@@ -14,7 +15,8 @@ object Main {
     fun main(args: Array<String>) {
         val builder = ZippitConfiguration.builder()
 
-        //TODO: dynamic population of configuration
+        //TODO: use constants
+        builder.datasource(Datasource("./Server/config/database/mercury.properties"))
 
         val configuration = builder.create()
 

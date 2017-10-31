@@ -4,6 +4,7 @@ import com.mercury.zippit.net.codec.login.LoginRequestDecoder
 import com.mercury.zippit.net.codec.login.LoginResponseEncoder
 import com.mercury.zippit.net.codec.registration.RegistrationRequestDecoder
 import com.mercury.zippit.net.codec.registration.RegistrationResponseEncoder
+import com.mercury.zippit.persistence.sql.Database
 import io.netty.channel.ChannelHandlerContext
 
 /**
@@ -14,21 +15,21 @@ import io.netty.channel.ChannelHandlerContext
 enum class HandshakeRequestEndpoint {
 
     LOGIN {
-        override fun handle(context: ChannelHandlerContext) {
+        override fun handle(context: ChannelHandlerContext, database: Database) {
             val pipeline = context.pipeline()
             pipeline.replace(HandshakeRequestDecoder::class.java.simpleName, LoginRequestDecoder::class.java.simpleName, LoginRequestDecoder())
-            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, LoginResponseEncoder::class.java.simpleName, LoginResponseEncoder())
+            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, LoginResponseEncoder::class.java.simpleName, LoginResponseEncoder(database))
         }
     },
     REGISTRATION {
-        override fun handle(context: ChannelHandlerContext) {
+        override fun handle(context: ChannelHandlerContext, database: Database) {
             val pipeline = context.pipeline()
             pipeline.replace(HandshakeRequestDecoder::class.java.simpleName, RegistrationRequestDecoder::class.java.simpleName, RegistrationRequestDecoder())
-            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, RegistrationResponseEncoder::class.java.simpleName, RegistrationResponseEncoder())
+            pipeline.replace(HandshakeResponseEncoder::class.java.simpleName, RegistrationResponseEncoder::class.java.simpleName, RegistrationResponseEncoder(database))
         }
     };
 
-    internal abstract fun handle(context: ChannelHandlerContext)
+    internal abstract fun handle(context: ChannelHandlerContext, database: Database)
 
     companion object {
 

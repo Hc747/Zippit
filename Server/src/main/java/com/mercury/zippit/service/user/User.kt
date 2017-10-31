@@ -5,6 +5,7 @@ package com.mercury.zippit.service.user
  * @version 1.0
  * @since 30/10/17
  */
-data class Credentials(val username: String, val password: String)
+//data class Credentials(val username: String, val password: String)
 
-data class User(val credentials: Credentials)
+//data class User(val credentials: Credentials)
+data class User(val id: Int, val username: String, val password: String)

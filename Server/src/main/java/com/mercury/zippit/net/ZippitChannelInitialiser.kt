@@ -3,6 +3,7 @@ package com.mercury.zippit.net
 import com.mercury.zippit.configuration.Version
 import com.mercury.zippit.net.codec.handshake.HandshakeRequestDecoder
 import com.mercury.zippit.net.codec.handshake.HandshakeResponseEncoder
+import com.mercury.zippit.persistence.sql.Database
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.timeout.IdleStateHandler
@@ -12,13 +13,13 @@ import io.netty.handler.timeout.IdleStateHandler
  * @version 1.0
  * @since 30/10/17
  */
-class ZippitChannelInitialiser(private val handler: ZippitHandler, private val version: Version) : ChannelInitializer<SocketChannel>() {
+class ZippitChannelInitialiser(private val handler: ZippitHandler, private val database: Database, private val version: Version) : ChannelInitializer<SocketChannel>() {
 
     override fun initChannel(channel: SocketChannel) {
         val pipeline = channel.pipeline()
 
         val decoder = HandshakeRequestDecoder()
-        val encoder = HandshakeResponseEncoder(version)
+        val encoder = HandshakeResponseEncoder(database, version)
         val timeout = IdleStateHandler(NetworkConstants.IDLE_TIME, 0, 0)
 
         pipeline.addLast(HandshakeRequestDecoder::class.java.simpleName, decoder)

@@ -5,6 +5,7 @@ import com.mercury.zippit.extensions.writeString
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.FAILURE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.INVALID_SERVICE
 import com.mercury.zippit.net.codec.handshake.HandshakeConstants.OUTDATED
+import com.mercury.zippit.persistence.sql.Database
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -15,7 +16,7 @@ import java.util.logging.Logger
  * @version 1.0
  * @since 30/10/17
  */
-class HandshakeResponseEncoder(private val version: Version) : MessageToByteEncoder<HandshakeRequest>(HandshakeRequest::class.java) {
+class HandshakeResponseEncoder(private val database: Database, private val version: Version) : MessageToByteEncoder<HandshakeRequest>(HandshakeRequest::class.java) {
 
     companion object {
 
@@ -37,7 +38,7 @@ class HandshakeResponseEncoder(private val version: Version) : MessageToByteEnco
             return
         }
 
-        request.endpoint.handle(context)
+        request.endpoint.handle(context, database)
         response.writeByte(request.endpoint.ordinal)
     }
 

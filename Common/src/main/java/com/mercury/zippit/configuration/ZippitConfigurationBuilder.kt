@@ -9,7 +9,9 @@ import com.mercury.zippit.builder.Builder
  */
 data class Version(val major: Int, val minor: Int)
 
-data class ZippitConfiguration internal constructor(val port: Int, val version: Version) {
+data class Datasource(val propertiesLocation: String)
+
+data class ZippitConfiguration internal constructor(val port: Int, val datasource: Datasource?, val version: Version) {
     companion object {
 
         @JvmStatic
@@ -24,6 +26,7 @@ class ZippitConfigurationBuilder internal constructor(): Builder<ZippitConfigura
 
     private var port = ZippitConstants.DEFAULT_PORT
     private var version = Version(ZippitConstants.VERSION_MAJOR, ZippitConstants.VERSION_MINOR)
+    private var datasource: Datasource? = null
 
     fun port(port: Int): ZippitConfigurationBuilder {
         this.port = port
@@ -35,8 +38,13 @@ class ZippitConfigurationBuilder internal constructor(): Builder<ZippitConfigura
         return this
     }
 
+    fun datasource(datasource: Datasource): ZippitConfigurationBuilder {
+        this.datasource = datasource
+        return this
+    }
+
     override fun create(): ZippitConfiguration {
-        return ZippitConfiguration(port, version)
+        return ZippitConfiguration(port, datasource, version)
     }
 
 }
