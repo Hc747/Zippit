@@ -1,10 +1,8 @@
 package com.mercury.zippit.mvc.controllers.login;
 
 import com.mercury.zippit.configuration.Version;
-import com.mercury.zippit.net.codec.handshake.HandshakeRequest;
-import com.mercury.zippit.net.codec.handshake.HandshakeRequestEndpoint;
-import com.mercury.zippit.net.codec.login.LoginRequest;
-import com.mercury.zippit.net.codec.registration.RegistrationRequest;
+import com.mercury.zippit.net.codec.service.LoginServiceRequest;
+import com.mercury.zippit.net.codec.service.RegistrationServiceRequest;
 import io.netty.channel.Channel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,26 +49,14 @@ public class LoginController implements Initializable {
 	private void login() {
 		login.setDisable(true);
 
-		HandshakeRequest handshake = new HandshakeRequest(version, HandshakeRequestEndpoint.LOGIN);
-		channel.writeAndFlush(handshake);
-		try { Thread.sleep(5000); } catch (Exception e) {
-			e.printStackTrace();
-		}
-		LoginRequest request = new LoginRequest(username.getText(), password.getText());
-		channel.writeAndFlush(request).addListener(y -> login.setDisable(false));
+		channel.writeAndFlush(new LoginServiceRequest(version, username.getText(), password.getText())).addListener(y -> login.setDisable(false));
 	}
 
 	@FXML
 	private void register() {
 		register.setDisable(true);
 
-		HandshakeRequest handshake = new HandshakeRequest(version, HandshakeRequestEndpoint.REGISTRATION);
-		channel.writeAndFlush(handshake);
-		try { Thread.sleep(5000); } catch (Exception e) {
-			e.printStackTrace();
-		}
-		RegistrationRequest request = new RegistrationRequest(username.getText(), password.getText());
-		channel.writeAndFlush(request).addListener(y -> register.setDisable(false));
+		channel.writeAndFlush(new RegistrationServiceRequest(version, username.getText(), password.getText())).addListener(y -> register.setDisable(false));
 	}
 
 	public void init(Version version, Channel channel) { //TODO: temp

@@ -1,9 +1,11 @@
 package com.mercury.zippit.net
 
-import com.mercury.zippit.net.codec.handshake.HandshakeDecoder
-import com.mercury.zippit.net.codec.handshake.HandshakeEncoder
+import com.mercury.zippit.net.codec.service.ServiceDecoder
+import com.mercury.zippit.net.codec.service.ServiceEncoder
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender
 
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
@@ -15,11 +17,15 @@ class ZippitChannelInitialiser(private val handler: ZippitHandler) : ChannelInit
     override fun initChannel(ch: SocketChannel) {
         val pipeline = ch.pipeline()
 
-        val decoder = HandshakeDecoder()
-        val encoder = HandshakeEncoder()
+        val decoder = ServiceDecoder()
+        val encoder = ServiceEncoder()
 
-        pipeline.addLast(HandshakeDecoder::class.java.simpleName, decoder)
-        pipeline.addLast(HandshakeEncoder::class.java.simpleName, encoder)
+        pipeline.addLast(ProtobufVarint32FrameDecoder::class.java.simpleName, ProtobufVarint32FrameDecoder())
+        pipeline.addLast(ServiceDecoder::class.java.simpleName, decoder)
+
+        pipeline.addLast(ProtobufVarint32LengthFieldPrepender::class.java.simpleName, ProtobufVarint32LengthFieldPrepender())
+        pipeline.addLast(ServiceEncoder::class.java.simpleName, encoder)
+
         pipeline.addLast(ZippitHandler::class.java.simpleName, handler)
     }
 }

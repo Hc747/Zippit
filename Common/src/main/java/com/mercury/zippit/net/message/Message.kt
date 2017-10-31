@@ -7,31 +7,8 @@ import io.netty.buffer.ByteBuf
  * @version 1.0
  * @since 30/10/17
  */
-enum class MessageLength {
+interface OutboundMessage {
 
-    FIXED,
-    BYTE,
-    SHORT,
-    ;
-}
-
-abstract class OutboundMessage(private val size: MessageLength) {
-
-    abstract fun encode(): ByteBuf
-
-    fun writeTo(buffer: ByteBuf) {
-        val data = encode()
-
-        //TODO: ensure that writer index doesn't need to be writer index + 1
-
-        if (size != MessageLength.FIXED) {
-            if (size == MessageLength.BYTE)
-                buffer.writeByte(data.writerIndex())
-            else
-                buffer.writeShort(data.writerIndex())
-        }
-
-        buffer.writeBytes(data)
-    }
+    fun encode(): ByteBuf
 
 }

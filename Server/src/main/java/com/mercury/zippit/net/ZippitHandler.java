@@ -1,13 +1,10 @@
 package com.mercury.zippit.net;
 
-import com.mercury.zippit.service.user.session.Session;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,17 +20,17 @@ public final class ZippitHandler extends ChannelInboundHandlerAdapter {
 
 	private static final Logger logger = Logger.getLogger(ZippitHandler.class.getSimpleName());
 
-	private static final AttributeKey<Session> SESSION_KEY = AttributeKey.valueOf("session");
+	//private static final AttributeKey<Session> SESSION_KEY = AttributeKey.valueOf("session");
 
 	@Override
 	public void channelRead(ChannelHandlerContext context, Object message) throws Exception {
 		try {
 			Channel channel = context.channel();
 			logger.info(String.format("channelRead: %s, %s", message, channel));
-			Session session = channel.attr(SESSION_KEY).get();
+			//Session session = channel.attr(SESSION_KEY).get();
 
-			if (session != null)
-				session.onMessageReceived(message);
+			//if (session != null)
+			//	session.onMessageReceived(message);
 		} finally {
 			ReferenceCountUtil.release(message);
 		}
@@ -50,7 +47,7 @@ public final class ZippitHandler extends ChannelInboundHandlerAdapter {
 	public void channelInactive(ChannelHandlerContext context) {
 		Channel channel = context.channel();
 		logger.info(String.format("channelInactive: %s", channel));
-		Optional.ofNullable(channel.attr(SESSION_KEY).getAndSet(null)).ifPresent(Session::destroy);//TODO
+		//Optional.ofNullable(channel.attr(SESSION_KEY).getAndSet(null)).ifPresent(Session::destroy);//TODO
 		channel.close();
 	}
 

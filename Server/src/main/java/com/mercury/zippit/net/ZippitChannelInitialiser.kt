@@ -1,11 +1,13 @@
 package com.mercury.zippit.net
 
 import com.mercury.zippit.configuration.Version
-import com.mercury.zippit.net.codec.handshake.HandshakeRequestDecoder
-import com.mercury.zippit.net.codec.handshake.HandshakeResponseEncoder
+import com.mercury.zippit.net.codec.OutboundMessageEncoder
+import com.mercury.zippit.net.codec.service.ServiceRequestDecoder
 import com.mercury.zippit.persistence.sql.Database
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender
 import io.netty.handler.timeout.IdleStateHandler
 
 /**
@@ -18,12 +20,16 @@ class ZippitChannelInitialiser(private val handler: ZippitHandler, private val d
     override fun initChannel(channel: SocketChannel) {
         val pipeline = channel.pipeline()
 
-        val decoder = HandshakeRequestDecoder()
-        val encoder = HandshakeResponseEncoder(database, version)
+        val decoder = ServiceRequestDecoder(database, version)
+        val encoder = OutboundMessageEncoder()
         val timeout = IdleStateHandler(NetworkConstants.IDLE_TIME, 0, 0)
 
-        pipeline.addLast(HandshakeRequestDecoder::class.java.simpleName, decoder)
-        pipeline.addLast(HandshakeResponseEncoder::class.java.simpleName, encoder)
+        pipeline.addLast(ProtobufVarint32FrameDecoder::class.java.simpleName, ProtobufVarint32FrameDecoder())
+        pipeline.addLast(ServiceRequestDecoder::class.java.simpleName, decoder)
+
+        pipeline.addLast(ProtobufVarint32LengthFieldPrepender::class.java.simpleName, ProtobufVarint32LengthFieldPrepender())
+        pipeline.addLast(OutboundMessageEncoder::class.java.simpleName, encoder)
+
         pipeline.addLast(IdleStateHandler::class.java.simpleName, timeout)
         pipeline.addLast(ZippitHandler::class.java.simpleName, handler)
     }
