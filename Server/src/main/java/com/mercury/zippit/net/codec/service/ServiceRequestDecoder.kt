@@ -2,7 +2,13 @@ package com.mercury.zippit.net.codec.service
 
 import com.mercury.zippit.configuration.Version
 import com.mercury.zippit.extensions.readString
-import com.mercury.zippit.persistence.sql.Database
+import com.mercury.zippit.extensions.writeString
+import com.mercury.zippit.net.codec.service.ServiceConstants.FAILURE
+import com.mercury.zippit.net.codec.service.ServiceConstants.INVALID_SERVICE
+import com.mercury.zippit.net.codec.service.ServiceConstants.OUTDATED
+import com.mercury.zippit.net.codec.service.ServiceConstants.REQUEST_VALIDITY_DURATION
+import com.mercury.zippit.net.codec.service.ServiceConstants.TIMEOUT
+import com.mercury.zippit.service.user.Credentials
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToMessageDecoder
@@ -13,9 +19,11 @@ import java.util.logging.Logger
  * @version 1.0
  * @since 30/10/17
  */
-data class ServiceRequest(val timestamp: Long, val version: Version, val endpoint: ServiceEndpoint?, val username: String, val password: String)
+data class ServiceRequest(val metadata: TransactionMetadata, val version: Version, val endpoint: ServiceEndpoint, val credentials: Credentials) {
+    data class TransactionMetadata(val sent: Long, val received: Long, val validated: Long, var processed: Long = 0L)
+}
 
-class ServiceRequestDecoder(private val database: Database, private val version: Version) : MessageToMessageDecoder<ByteBuf>() {
+class ServiceRequestDecoder(private val version: Version) : MessageToMessageDecoder<ByteBuf>() {
 
     companion object {
 
@@ -24,20 +32,49 @@ class ServiceRequestDecoder(private val database: Database, private val version:
     }
 
     override fun decode(context: ChannelHandlerContext, buffer: ByteBuf, out: MutableList<Any>) {
-        val timestamp = buffer.readLong()
+        val sent = buffer.readLong()
+        val received = System.currentTimeMillis()
+        val latency = received - sent
+
+        if (latency < 0 || latency > REQUEST_VALIDITY_DURATION) {
+            fail(context, TIMEOUT)
+            return
+        }
 
         val version = Version(buffer.readShort().toInt(), buffer.readShort().toInt())
 
+        if (this.version != version) {
+            fail(context, OUTDATED)
+            return
+        }
+
         val endpoint = ServiceEndpoint.lookup(buffer.readUnsignedByte().toInt())
 
-        val username = buffer.readString()
+        if (endpoint == null) {
+            fail(context, INVALID_SERVICE)
+            return
+        }
 
+        //TODO: validate username & password
+        //username must be an email address, and password must adhere to a certain length
+
+        val username = buffer.readString()
         val password = buffer.readString()
 
-        logger.info("Timestamp: $timestamp, Version: $version, Endpoint: $endpoint, Username: $username, Password: $password")
+        val credentials = Credentials(username, password)
+        val metadata = ServiceRequest.TransactionMetadata(sent, received, validated = System.currentTimeMillis())
 
-        out.add(ServiceRequest(timestamp, version, endpoint, username, password))
-        //context.channel().writeAndFlush(HandshakeRequestHeader(timestamp, version, endpoint))
+        val request = ServiceRequest(metadata, version, endpoint, credentials)
+
+        logger.info(request.toString())
+
+        out.add(request) //pass to the app handler
+    }
+
+    private fun fail(context: ChannelHandlerContext, reason: String) {
+        //TODO: close channel where necessary
+        logger.info(reason)
+        context.writeAndFlush(context.alloc().buffer().writeByte(FAILURE).writeString(reason))
     }
 
 }
