@@ -2,7 +2,7 @@ package com.mercury.zippit.net.codec.service
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.ByteToMessageDecoder
+import io.netty.handler.codec.MessageToMessageDecoder
 import java.util.logging.Logger
 
 /**
@@ -10,7 +10,7 @@ import java.util.logging.Logger
  * @version 1.0
  * @since 26/10/17
  */
-class ServiceDecoder : ByteToMessageDecoder() {
+class ServiceDecoder : MessageToMessageDecoder<ByteBuf>() {
 
     companion object {
 
@@ -18,7 +18,10 @@ class ServiceDecoder : ByteToMessageDecoder() {
 
     }
 
-    override fun decode(context: ChannelHandlerContext, buffer: ByteBuf, out: List<Any>) {
+    override fun decode(context: ChannelHandlerContext, buffer: ByteBuf, out: MutableList<Any>) {
+        logger.warning("TODO")
+
+        //out.add(buffer)
         /*
         if (!buffer.isReadable) return
 
@@ -34,7 +37,6 @@ class ServiceDecoder : ByteToMessageDecoder() {
         logger.info(endpoint.toString())
 
         endpoint.handle(context)*/
-        logger.warning("TODO")
     }
 
 }

@@ -1,7 +1,7 @@
 package com.mercury.zippit.net
 
+import com.mercury.zippit.net.codec.OutboundMessageEncoder
 import com.mercury.zippit.net.codec.service.ServiceDecoder
-import com.mercury.zippit.net.codec.service.ServiceEncoder
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder
@@ -18,14 +18,14 @@ class ZippitChannelInitialiser(private val handler: ZippitHandler) : ChannelInit
         val pipeline = ch.pipeline()
 
         val decoder = ServiceDecoder()
-        val encoder = ServiceEncoder()
+        val encoder = OutboundMessageEncoder()
 
-        pipeline.addLast(ProtobufVarint32FrameDecoder::class.java.simpleName, ProtobufVarint32FrameDecoder())
-        pipeline.addLast(ServiceDecoder::class.java.simpleName, decoder)
+        pipeline.addLast(ProtobufVarint32FrameDecoder())
+        pipeline.addLast(decoder)
 
-        pipeline.addLast(ProtobufVarint32LengthFieldPrepender::class.java.simpleName, ProtobufVarint32LengthFieldPrepender())
-        pipeline.addLast(ServiceEncoder::class.java.simpleName, encoder)
+        pipeline.addLast(ProtobufVarint32LengthFieldPrepender())
+        pipeline.addLast(encoder)
 
-        pipeline.addLast(ZippitHandler::class.java.simpleName, handler)
+        pipeline.addLast(handler)
     }
 }

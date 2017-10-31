@@ -11,4 +11,6 @@ interface OutboundMessage {
 
     fun encode(): ByteBuf
 
+    override fun toString(): String
+
 }

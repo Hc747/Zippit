@@ -5,7 +5,7 @@ import com.mercury.zippit.extensions.readString
 import com.mercury.zippit.persistence.sql.Database
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.ByteToMessageDecoder
+import io.netty.handler.codec.MessageToMessageDecoder
 import java.util.logging.Logger
 
 /**
@@ -13,7 +13,9 @@ import java.util.logging.Logger
  * @version 1.0
  * @since 30/10/17
  */
-class ServiceRequestDecoder(private val database: Database, private val version: Version) : ByteToMessageDecoder() {
+data class ServiceRequest(val timestamp: Long, val version: Version, val endpoint: ServiceEndpoint?, val username: String, val password: String)
+
+class ServiceRequestDecoder(private val database: Database, private val version: Version) : MessageToMessageDecoder<ByteBuf>() {
 
     companion object {
 
@@ -34,6 +36,7 @@ class ServiceRequestDecoder(private val database: Database, private val version:
 
         logger.info("Timestamp: $timestamp, Version: $version, Endpoint: $endpoint, Username: $username, Password: $password")
 
+        out.add(ServiceRequest(timestamp, version, endpoint, username, password))
         //context.channel().writeAndFlush(HandshakeRequestHeader(timestamp, version, endpoint))
     }
 

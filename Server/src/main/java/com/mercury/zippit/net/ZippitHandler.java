@@ -23,7 +23,7 @@ public final class ZippitHandler extends ChannelInboundHandlerAdapter {
 	//private static final AttributeKey<Session> SESSION_KEY = AttributeKey.valueOf("session");
 
 	@Override
-	public void channelRead(ChannelHandlerContext context, Object message) throws Exception {
+	public void channelRead(ChannelHandlerContext context, Object message) {
 		try {
 			Channel channel = context.channel();
 			logger.info(String.format("channelRead: %s, %s", message, channel));

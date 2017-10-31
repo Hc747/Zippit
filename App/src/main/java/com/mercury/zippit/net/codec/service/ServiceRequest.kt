@@ -16,7 +16,7 @@ abstract class ServiceRequest(private val version: Version, private val endpoint
     private val timestamp: Long = System.currentTimeMillis()
 
     override fun encode(): ByteBuf {
-        val buffer = Unpooled.buffer(13, 13)
+        val buffer = Unpooled.buffer()
 
         buffer.writeLong(timestamp)
         buffer.writeShort(version.major)
@@ -26,6 +26,10 @@ abstract class ServiceRequest(private val version: Version, private val endpoint
         buffer.writeString(password)
 
         return buffer
+    }
+
+    override fun toString(): String {
+        return "${this::class.java.simpleName}(timestamp=$timestamp, version=$version, endpoint=$endpoint, username=$username, password=$password)"
     }
 
 }

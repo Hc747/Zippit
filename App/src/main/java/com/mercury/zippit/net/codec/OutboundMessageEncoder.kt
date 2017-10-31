@@ -8,7 +8,7 @@ import java.util.logging.Logger
 /**
  * @author Harrison, Alias: Hc747, Contact: harrisoncole05@gmail.com
  * @version 1.0
- * @since 30/10/17
+ * @since 26/10/17
  */
 class OutboundMessageEncoder : MessageToMessageEncoder<OutboundMessage>(OutboundMessage::class.java) {
 

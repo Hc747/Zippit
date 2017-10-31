@@ -24,14 +24,14 @@ class ZippitChannelInitialiser(private val handler: ZippitHandler, private val d
         val encoder = OutboundMessageEncoder()
         val timeout = IdleStateHandler(NetworkConstants.IDLE_TIME, 0, 0)
 
-        pipeline.addLast(ProtobufVarint32FrameDecoder::class.java.simpleName, ProtobufVarint32FrameDecoder())
-        pipeline.addLast(ServiceRequestDecoder::class.java.simpleName, decoder)
+        pipeline.addLast(ProtobufVarint32FrameDecoder())
+        pipeline.addLast(decoder)
 
-        pipeline.addLast(ProtobufVarint32LengthFieldPrepender::class.java.simpleName, ProtobufVarint32LengthFieldPrepender())
-        pipeline.addLast(OutboundMessageEncoder::class.java.simpleName, encoder)
+        pipeline.addLast(ProtobufVarint32LengthFieldPrepender())
+        pipeline.addLast(encoder)
 
-        pipeline.addLast(IdleStateHandler::class.java.simpleName, timeout)
-        pipeline.addLast(ZippitHandler::class.java.simpleName, handler)
+        pipeline.addLast(timeout)
+        pipeline.addLast(handler)
     }
 
 }
